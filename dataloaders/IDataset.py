@@ -20,8 +20,11 @@ class IDataset(torch.utils.data.Dataset):
         raise NotImplementedError
 
     @staticmethod
-    def fillOutputDataDict(inputs: list, gts: list) -> dict:
+    def fillOutputDataDict(inputs: torch.tensor, gts: torch.tensor, original=None) -> dict:
         data = dict()
         data["inputs"] = inputs
         data["gts"] = gts
+        if not original is None:
+            data['original'] = original
+
         return data
