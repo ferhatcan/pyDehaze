@@ -16,3 +16,5 @@ class L1LossLocal(ILoss):
             if x["gts"][i].shape == x["result"][0].shape:
                 result.append(self.loss_function(x["gts"][i], x["result"][0]))
         return result
+
+# @TODO EMRE TEST
