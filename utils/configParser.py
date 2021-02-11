@@ -9,6 +9,7 @@ class options:
 
         self.argsCommon = ParseCommons(self.config)
         self.argsDataset = ParseDataset(self.config)
+        self.argsModel = ParseModel(self.config)
 
 
 class ParseCommons:
@@ -39,3 +40,11 @@ class ParseDataset(ParseCommons):
 
         self.normalize = config["DATASET"]["normalize"]
         self.validation_size = float(config["DATASET"]["validation_size"])
+        self.shuffle_dataset = bool(config["DATASET"]["shuffle_dataset"])
+
+class ParseModel(ParseCommons):
+    def __init__(self, config: ConfigParser):
+        super(ParseModel, self).__init__(config)
+
+        self.input_dim = int(config["MODEL"]["input_dim"])
+        self.output_dim = int(config["MODEL"]["output_dim"])
