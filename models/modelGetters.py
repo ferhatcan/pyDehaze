@@ -1,4 +1,4 @@
-from models.EncoderDecoder import make_model as encoder_make_model
+from models.model_zoo.EncoderDecoder import make_model as encoder_make_model
 
 
 def getEncoderDecoderModel(args):
