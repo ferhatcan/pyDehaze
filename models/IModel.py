@@ -4,6 +4,7 @@ import torch.nn as nn
 
 class IModel(nn.Module):
     def __init__(self, args):
+        super(IModel, self).__init__()
         self.args = args
 
     def forward(self, x: dict) -> torch.Tensor:
