@@ -3,6 +3,7 @@ import torch.nn as nn
 
 class ILoss(nn.Module):
     def __init__(self, args):
+        super(ILoss, self).__init__()
         self.args = args
 
     def forward(self, x: dict) -> torch.Tensor:
