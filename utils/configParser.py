@@ -10,6 +10,8 @@ class options:
         self.argsCommon = ParseCommons(self.config)
         self.argsDataset = ParseDataset(self.config)
         self.argsModel = ParseModel(self.config)
+        self.argsLoss = ParseLoss(self.config)
+        self.argsOptim = ParseOptimization(self.config)
 
 
 class ParseCommons:
@@ -46,5 +48,26 @@ class ParseModel(ParseCommons):
     def __init__(self, config: ConfigParser):
         super(ParseModel, self).__init__(config)
 
+        self.type = config['MODEL']['type']
         self.input_dim = int(config["MODEL"]["input_dim"])
         self.output_dim = int(config["MODEL"]["output_dim"])
+
+class ParseLoss(ParseCommons):
+    def __init__(self, config: ConfigParser):
+        super(ParseLoss, self).__init__(config)
+
+        self.loss = config['LOSS']['loss']
+
+class ParseOptimization(ParseCommons):
+    def __init__(self, config: ConfigParser):
+        super(ParseOptimization, self).__init__(config)
+
+        self.learning_rate      = float(config["OPTIMIZATION"]["learning_rate"])
+        self.decay              = config["OPTIMIZATION"]["decay"]
+        self.decay_factor_gamma = float(config["OPTIMIZATION"]["decay_factor_gamma"])
+        self.optimizer          = config["OPTIMIZATION"]["optimizer"]
+        self.momentum           = float(config["OPTIMIZATION"]["momentum"])
+        self.betas              = list(map(float, config["OPTIMIZATION"]["betas"].split(',')))
+        self.epsilon            = float(config["OPTIMIZATION"]["epsilon"])
+        self.weight_decay       = float(config["OPTIMIZATION"]["weight_decay"])
+        self.gclip              = float(config["OPTIMIZATION"]["gclip"])
