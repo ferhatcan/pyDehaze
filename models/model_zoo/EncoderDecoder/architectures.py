@@ -1,7 +1,7 @@
 import torch
 
 from models.IModel import IModel
-from models.EncoderDecoder.custom_layers import Encoder, Decoder
+from models.model_zoo.EncoderDecoder.custom_layers import Encoder, Decoder
 
 
 class EncoderDecoder_v01(IModel):
