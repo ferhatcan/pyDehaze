@@ -8,7 +8,7 @@ class Encoder(IModel):
     def __init__(self, args):
         super(Encoder, self).__init__(args)
 
-        self.input_dim = args.input_dim if 'input_dim' in args else 3
+        self.input_dim = args.input_dim if hasattr(args, 'input_dim') else 3
         self.maxpool = nn.AvgPool2d(2)
 
         self.encoder_layer_0 = nn.Conv2d(self.input_dim, 64, kernel_size=3, stride=1, padding=1, bias=False)
@@ -34,9 +34,8 @@ class Decoder(IModel):
 
         self.args = args
 
-        self.output_dim = args.output_dim if 'output_dim' in args else 3
+        self.output_dim = args.output_dim if hasattr(args, 'output_dim') else 3
 
-        assert (args.scale % 2 == 0 or args.scale == 1), 'Scale should be multiple of 2 or be 1'
 
         self.layer1 = nn.ConvTranspose2d(1024, 512, kernel_size=4, stride=2, padding=(1, 1), groups=32, bias=False)
         self.layer2 = nn.ConvTranspose2d(1024, 256, kernel_size=4, stride=2, padding=(1, 1), groups=32, bias=False)
@@ -72,5 +71,3 @@ class Decoder(IModel):
         out = self.output_layer(out)
 
         return out
-
-# @TODO EMRE TEST
