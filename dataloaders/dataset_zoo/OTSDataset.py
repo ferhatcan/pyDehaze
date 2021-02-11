@@ -55,7 +55,7 @@ class OTSDataset(IDataset):
         haze_im = tvF.crop(im_haze, i, j, h, w)
         if not im_ref is None:
             ref_im = tvF.crop(im_ref, i, j, h, w)
-            haze_diff = np.array(haze_im) / 255 - np.array(ref_im) / 255
+            haze_diff = (np.array(haze_im) / 255 - np.array(ref_im) / 255).astype(np.float32)
             return self.transform(haze_im), self.transform(haze_diff, normalize=True), self.transform(ref_im)
 
         return self.transform(haze_im), torch.tensor([]), torch.tensor([])
