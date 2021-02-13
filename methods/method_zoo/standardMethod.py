@@ -27,7 +27,7 @@ class StandartMethod(IMethod):
         # back-propagation
         self.optimizer.step()
 
-        return result, losses
+        return result, {'loss_values': losses, 'loss_types': self.loss_functions['types']}
 
     def validate(self, data):
         assert 'inputs' in data, 'Input dictionary does not have "inputs" key!'
@@ -42,7 +42,7 @@ class StandartMethod(IMethod):
         losses = self._calculateLoss({'result': data['result'], 'gts': data['gts']})
         self._checkNaN(losses)
 
-        return result, losses
+        return result, {'loss_values': losses, 'loss_types': self.loss_functions['types']}
 
     def test(self, data):
         assert 'inputs' in data, 'Input dictionary does not have "inputs" key!'
