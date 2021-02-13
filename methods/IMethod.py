@@ -20,3 +20,6 @@ class IMethod:
 
     def test(self, data):
         raise NotImplementedError
+
+    def getLossTypes(self):
+        return self.loss_functions['types']
