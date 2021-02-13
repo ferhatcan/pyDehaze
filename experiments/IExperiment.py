@@ -8,10 +8,10 @@ class IExperiment:
     def train(self):
         raise NotImplementedError
 
-    def test_dataset(self, dataloader):
+    def validate_dataset(self, dataloader):
         raise NotImplementedError
 
-    def test_single(self, images: list):
+    def validate_single(self, images: list):
         raise NotImplementedError
 
     def inference(self, data: dict):
