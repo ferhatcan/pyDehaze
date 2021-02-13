@@ -10,7 +10,7 @@ class IBenchmark(nn.Module):
 
     def forward(self, data: dict) -> torch.tensor:
         """
-        :param data: 'inputs' and 'gts' keys required
+        :param data: 'result' and 'gts' keys required
                     tensors should be in range [0, 255]
         :return: bench_dict -->
                     'result':
@@ -27,5 +27,5 @@ class IBenchmark(nn.Module):
 
     @staticmethod
     def checkInput(data):
-        assert 'inputs' and 'gts' in data, 'Benchmark input should include inputs and gts keys.'
-        assert data['inputs'].shape == data['gts'].shape, 'input and ground truth tensor shape should be equal.'
+        assert 'result' and 'gts' in data, 'Benchmark input should include inputs and gts keys.'
+        assert data['result'].shape == data['gts'].shape, 'input and ground truth tensor shape should be equal.'
