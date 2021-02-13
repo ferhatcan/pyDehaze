@@ -33,7 +33,7 @@ class MSE(IBenchmark):
         else:
             data_range = (-1, 1)
 
-        inp = (((data['inputs'] - data_range[0]) / (data_range[1] - data_range[0]) * 255.0).to(torch.uint8)).to(torch.float32)
+        inp = (((data['result'] - data_range[0]) / (data_range[1] - data_range[0]) * 255.0).to(torch.uint8)).to(torch.float32)
         gts = (((data['gts'] - data_range[0]) / (data_range[1] - data_range[0]) * 255.0).to(torch.uint8)).to(torch.float32)
 
         return inp, gts
