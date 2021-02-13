@@ -12,6 +12,7 @@ class options:
         self.argsModel = ParseModel(self.config)
         self.argsLoss = ParseLoss(self.config)
         self.argsOptim = ParseOptimization(self.config)
+        self.argsBenchs = ParseBenchmark(self.config)
 
 
 class ParseCommons:
@@ -71,3 +72,9 @@ class ParseOptimization(ParseCommons):
         self.epsilon            = float(config["OPTIMIZATION"]["epsilon"])
         self.weight_decay       = float(config["OPTIMIZATION"]["weight_decay"])
         self.gclip              = float(config["OPTIMIZATION"]["gclip"])
+
+class ParseBenchmark(ParseCommons):
+    def __init__(self, config: ConfigParser):
+        super(ParseBenchmark, self).__init__(config)
+
+        self.benchmarks = config['BENCHMARK']['benchmarks']
