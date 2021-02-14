@@ -10,11 +10,11 @@ from utils.logger import LoggerTensorBoard
 from experiments.experimentGetter import getStandardExperiment
 
 
-def getExperiment(config_file, args):
-
-    CONFIG_FILE_NAME = '../configs/EncoderDecoder_v01.ini'
-
+def getExperiment(args):
     device = torch.device("cuda:0" if torch.cuda.is_available() and args.argsCommon.device == "gpu" else "cpu")
+
+    print("The system will use following resource: {:}".format(args.argsCommon.device))
+    print('Current available device is {}'.format(device))
 
     dataloaders = getOTSDataloaders(args.argsDataset)
 
