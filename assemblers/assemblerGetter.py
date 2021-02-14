@@ -6,7 +6,7 @@ def getExperimentWithDesiredAssembler(config_file_name):
     args = options(config_file_name)
     if args.argsCommon.model == 'encoderDecoder':
         if args.argsModel.type == 'v01':
-            return encoderDecoder_v01(config_file_name, args)
+            return encoderDecoder_v01(args)
         else:
             ValueError('There should be an valid assembler type: given type {:}'.format(args.argsModel.type))
     else:
