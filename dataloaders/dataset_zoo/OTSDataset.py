@@ -49,6 +49,11 @@ class OTSDataset(IDataset):
         return self.fillOutputDataDict(*self.transform_multi(im_haze, im_ref))
 
     def transform_multi(self, im_haze, im_ref):
+        if im_haze.size[0] < self.input_shape[0] or im_haze.size[1] < self.input_shape[1]:
+            resize = transforms.Resize(size=self.input_shape)
+            im_haze = resize(im_haze)
+            im_ref = resize(im_ref)
+
         # random crop
         crop = transforms.RandomCrop(size=self.input_shape)
         i, j, h, w = crop.get_params(im_haze, self.input_shape)
