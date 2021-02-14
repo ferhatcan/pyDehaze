@@ -59,12 +59,18 @@ class Logger:
         if verbose:
             print(text, end='')
 
+    def resetText(self, fileName):
+        checkNameValidty(fileName)
+        savePath = os.path.join(self.destination_logText, fileName) + '.txt'
+        if os.path.exists(savePath):
+            os.remove(savePath)
+
     def saveCheckpoint(self, stateDict, fileName):
         checkNameValidty(fileName)
 
         assert 'model_state_dict' in stateDict, 'checkpoint should include model parameters'
         assert 'optimizer' in stateDict, 'checkpoint should include optimizer key(it can be empty but key should exist)'
-        assert 'epoch' in stateDict, 'checkpoint should include epoch key(it can be empty but key should exist)'
+        assert 'current_epoch' in stateDict, 'checkpoint should include epoch key(it can be empty but key should exist)'
 
         savePath = os.path.join(self.destination_checkpoint, fileName) + '.pth'
         torch.save(stateDict, savePath)
