@@ -13,6 +13,7 @@ class options:
         self.argsLoss = ParseLoss(self.config)
         self.argsOptim = ParseOptimization(self.config)
         self.argsBenchs = ParseBenchmark(self.config)
+        self.argsExperiment = ParseExperiment(self.config)
 
 
 class ParseCommons:
@@ -26,6 +27,7 @@ class ParseCommons:
         self.model              = config["MODEL"]["model"]
         self.input_shape           = list(map(int, config["DATASET"]["input_shape"].split(',')))
         self.batch_size         = int(config["DATASET"]["batch_size"])
+        self.desired_input_shape_multiplier = [int(v.strip()) for v in config["MODEL"]["desired_input_shape_multiplier"].split(',')]
         if self.generateNew:
             self.experiment_save_path = "runs/" + self.model + "/" \
             + self.experiment_name + "_" + datetime.datetime.now().strftime('%Y-%m-%d-hour%H')
@@ -78,3 +80,11 @@ class ParseBenchmark(ParseCommons):
         super(ParseBenchmark, self).__init__(config)
 
         self.benchmarks = config['BENCHMARK']['benchmarks']
+
+class ParseExperiment(ParseCommons):
+    def __init__(self, config: ConfigParser):
+        super(ParseExperiment, self).__init__(config)
+
+        self.log_frequency = float(config['EXPERIMENT']['log_frequency'])
+        self.validate_frequency = float(config['EXPERIMENT']['validate_frequency'])
+        self.epoch_num = int(config['EXPERIMENT']['epoch_num'])
