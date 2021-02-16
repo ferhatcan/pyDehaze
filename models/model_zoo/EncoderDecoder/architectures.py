@@ -1,7 +1,7 @@
 import torch
 
 from models.IModel import IModel
-from models.model_zoo.EncoderDecoder.custom_layers import Encoder, Decoder
+from models.model_zoo.EncoderDecoder.custom_layers import Encoder, Decoder, DecoderResizeConv
 
 
 class EncoderDecoder_v01(IModel):
@@ -10,6 +10,22 @@ class EncoderDecoder_v01(IModel):
 
         self.encoder = Encoder(args)
         self.decoder = Decoder(args)
+
+    def forward(self, x: dict) -> torch.Tensor:
+        assert 'inputs' in x,'There should be 1 input'
+        assert len(x['inputs'].shape) == 4, 'input should be 4D tensor'
+
+        feats = self.encoder(x['inputs'])
+        out = self.decoder(feats)
+        return out
+
+
+class EncoderDecoder_v02(IModel):
+    def __init__(self, args):
+        super(EncoderDecoder_v02, self).__init__(args)
+
+        self.encoder = Encoder(args)
+        self.decoder = DecoderResizeConv(args)
 
     def forward(self, x: dict) -> torch.Tensor:
         assert 'inputs' in x,'There should be 1 input'
