@@ -12,7 +12,7 @@ class MSE(IBenchmark):
         self.checkInput(data)
 
         inp, gts = self.normalizeInputs(data)
-        result = torch.sqrt(torch.mean((inp - gts) ** 2))
+        result = torch.mean((inp - gts) ** 2)
 
         self.fillBenchmarkDict(result)
 
