@@ -4,10 +4,11 @@ import numpy as np
 import dataloaders.dataset_zoo as zoo
 
 
-def _generateDataLoaders(ds_train, ds_test, batch_size, validation_percent=0.1, isShuffle=True) -> dict:
+def _generateDataLoaders(ds_train, ds_test, batch_size, max_dataset_size=4000, validation_percent=0.1, isShuffle=True) -> dict:
     dataset_size = len(ds_train)
-    indices = list(range(dataset_size))
-    split = int(np.floor(validation_percent * dataset_size))
+    # indices = list(range(min(dataset_size, 10000)))
+    indices = np.random.randint(dataset_size, size=(min(dataset_size, max_dataset_size))).tolist()
+    split = int(np.floor(validation_percent * len(indices)))
     if isShuffle:
         np.random.shuffle(indices)
     train_indices, val_indices = indices[split:], indices[:split]
@@ -22,9 +23,9 @@ def _generateDataLoaders(ds_train, ds_test, batch_size, validation_percent=0.1, 
     # loader_val = torch.utils.data.DataLoader(ds_train, batch_size=batch_size, sampler=validation_sampler, num_workers=0)
     # loader_test = torch.utils.data.DataLoader(ds_test, batch_size=batch_size, shuffle=False, num_workers=0)
 
-    loader_train = torch.utils.data.DataLoader(train_ds, batch_size=batch_size, num_workers=4)
-    loader_val = torch.utils.data.DataLoader(valid_ds, batch_size=batch_size, num_workers=4)
-    loader_test = torch.utils.data.DataLoader(ds_test, batch_size=batch_size, num_workers=4)
+    loader_train = torch.utils.data.DataLoader(train_ds, batch_size=batch_size, num_workers=1)
+    loader_val = torch.utils.data.DataLoader(valid_ds, batch_size=batch_size, num_workers=1)
+    loader_test = torch.utils.data.DataLoader(ds_test, batch_size=batch_size, num_workers=1)
 
     loaders = dict()
     loaders["train"] = loader_train
@@ -37,4 +38,4 @@ def _generateDataLoaders(ds_train, ds_test, batch_size, validation_percent=0.1, 
 def getOTSDataloaders(args):
     ds_train = zoo.OTSDataset(args=args, train=True)
     ds_test = zoo.OTSDataset(args=args, train=False)
-    return _generateDataLoaders(ds_train, ds_test, args.batch_size, args.validation_size, args.shuffle_dataset)
+    return _generateDataLoaders(ds_train, ds_test, args.batch_size, args.max_dataset_size, args.validation_size, args.shuffle_dataset)
