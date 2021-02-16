@@ -61,13 +61,13 @@ class OTSDataset(IDataset):
         if not im_ref is None:
             ref_im = tvF.crop(im_ref, i, j, h, w)
             haze_diff = (np.array(haze_im) / 255 - np.array(ref_im) / 255).astype(np.float32)
-            return self.transform(haze_im), self.transform(haze_diff, normalize=True), self.transform(ref_im)
+            return self.transform(haze_im), self.transform(ref_im), self.transform(haze_diff, normalize=False)
 
         return self.transform(haze_im), torch.tensor([]), torch.tensor([])
 
-    def transform(self, image, normalize=False):
+    def transform(self, image, normalize=True):
         torch_image = tvF.to_tensor(image)
-        if not normalize:
+        if normalize:
             if self.normalize == 'between1-1':
                 torch_image = torch_image * 2 - 1
 
