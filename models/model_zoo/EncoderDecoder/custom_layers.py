@@ -71,3 +71,52 @@ class Decoder(IModel):
         out = self.output_layer(out)
 
         return out
+
+
+class DecoderResizeConv(Decoder):
+    def __init__(self, args):
+        super(DecoderResizeConv, self).__init__(args)
+
+        self.layer1 = ResizeConv2D(1024, 512)
+        self.layer2 = ResizeConv2D(1024, 256)
+        self.layer3 = ResizeConv2D(512, 128)
+        self.layer4 = ResizeConv2D(256, 64)
+        self.layer5 = ResizeConv2D(128, 64)
+
+
+class ResizeConv2D(nn.Module):
+    def __init__(self,
+                 input_channel,
+                 output_channel,
+                 kernel_size = 3,
+                 stride = 1,
+                 padding = 1,
+                 bias = False,
+                 scale_factor=2,
+                 mode='bilinear'):
+        super(ResizeConv2D, self).__init__()
+
+        self.resize = nn.Upsample(scale_factor=scale_factor, mode=mode)
+        self.conv = nn.Conv2d(input_channel, output_channel, kernel_size=kernel_size,
+                              stride=stride, padding=padding, bias=bias)
+
+    def forward(self, x):
+        out = self.resize(x)
+        out = self.conv(out)
+
+        return out
+
+# Test starts
+
+# decoder = DecoderResizeConv(None)
+#
+# output = dict()
+# output['input_layer'] = torch.randn(1, 64, 32, 32)
+# output['layer1'] = torch.randn(1, 128, 16, 16)
+# output['layer2'] = torch.randn(1, 256, 8, 8)
+# output['layer3'] = torch.randn(1, 512, 4, 4)
+# output['layer4'] = torch.randn(1, 1024, 2, 2)
+#
+# out = decoder(output)
+#
+# tmp = 0
