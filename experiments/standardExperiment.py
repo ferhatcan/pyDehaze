@@ -169,6 +169,7 @@ class StandardExperiment(IExperiment):
         statistics['model_duration'] = time.time() - model_timer
 
         for index, benchmark_method in enumerate(self.benchmark['bench_methods']):
+            # @TODO there is an error here (input data should be normalized to 0-255)
             benchmark_result = benchmark_method(data)
             statistics['bench_results'][index] = benchmark_result
 
