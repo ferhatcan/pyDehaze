@@ -42,6 +42,7 @@ class ParseDataset(ParseCommons):
 
         self.train_set_paths = config["DATASET"]["train_set_paths"].split(',\n')
         self.test_set_paths = config["DATASET"]["test_set_paths"].split(',\n')
+        self.max_dataset_size = int(config["DATASET"]["max_dataset_size"]) if "max_dataset_size" in config["DATASET"] else 1e12
 
         self.normalize = config["DATASET"]["normalize"]
         self.validation_size = float(config["DATASET"]["validation_size"])
