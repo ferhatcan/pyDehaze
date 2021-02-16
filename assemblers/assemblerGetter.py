@@ -5,7 +5,7 @@ from assemblers.encoderDecoder_v01Assembler import getExperiment as encoderDecod
 def getExperimentWithDesiredAssembler(config_file_name):
     args = options(config_file_name)
     if args.argsCommon.model == 'encoderDecoder':
-        if args.argsModel.type == 'v01':
+        if args.argsModel.type == 'v01' or 'v02':
             return encoderDecoder_v01(args)
         else:
             ValueError('There should be an valid assembler type: given type {:}'.format(args.argsModel.type))
