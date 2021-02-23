@@ -55,6 +55,8 @@ class ParseModel(ParseCommons):
         self.type = config['MODEL']['type']
         self.input_dim = int(config["MODEL"]["input_dim"])
         self.output_dim = int(config["MODEL"]["output_dim"])
+        self.include_input_image = bool(config['MODEL']['include_input_image']) if 'include_input_image' in config['MODEL'] \
+                                                                                else False
 
 class ParseLoss(ParseCommons):
     def __init__(self, config: ConfigParser):
