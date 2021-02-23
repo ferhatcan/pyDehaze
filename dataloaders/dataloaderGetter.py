@@ -36,6 +36,7 @@ def _generateDataLoaders(ds_train, ds_test, batch_size, max_dataset_size=4000, v
 
 
 def getOTSDataloaders(args):
+    np.random.seed(args.seed)
     ds_train = zoo.OTSDataset(args=args, train=True)
     ds_test = zoo.OTSDataset(args=args, train=False)
     return _generateDataLoaders(ds_train, ds_test, args.batch_size, args.max_dataset_size, args.validation_size, args.shuffle_dataset)
