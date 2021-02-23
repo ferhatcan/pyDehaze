@@ -19,6 +19,7 @@ class Encoder(IModel):
 
     def forward(self, x):
         output = dict()
+        output['input_image'] = x
         output['input_layer'] = self.maxpool(self.encoder_layer_0(x))
         output['layer1'] = self.maxpool(self.encoder_layer_1(output['input_layer']))
         output['layer2'] = self.maxpool(self.encoder_layer_2(output['layer1']))
@@ -35,6 +36,7 @@ class Decoder(IModel):
         self.args = args
 
         self.output_dim = args.output_dim if hasattr(args, 'output_dim') else 3
+        self.include_input_image = args.include_input_image if hasattr(args, 'include_input_image') else False
 
 
         self.layer1 = nn.ConvTranspose2d(1024, 512, kernel_size=4, stride=2, padding=(1, 1), groups=32, bias=False)
@@ -52,7 +54,7 @@ class Decoder(IModel):
         )
 
     def forward(self, feats):
-        assert len(feats) == 5, 'There should be 5 layer outputs for decoder!'
+        assert len(feats) >= 5, 'There should be minimum 5 layer outputs for decoder!'
 
         out = self.layer1(feats['layer4'])
         out = torch.cat((feats['layer3'], out), dim=1)
@@ -69,6 +71,9 @@ class Decoder(IModel):
         out = self.layer5(out)
 
         out = self.output_layer(out)
+
+        if self.include_input_image and 'input_image' in feats:
+            out = (out + feats['input_image']) / 2
 
         return out
 
