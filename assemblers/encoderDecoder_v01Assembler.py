@@ -1,6 +1,6 @@
 import torch
 
-from dataloaders.dataloaderGetter import getOTSDataloaders
+from dataloaders.dataloaderGetter import *
 from models.modelGetters import getEncoderDecoderModel
 from loss.lossGetters import getMSELoss, getL1Loss
 from optimizers.optimizerSchedulerGetter import *
@@ -16,12 +16,13 @@ def getExperiment(args):
     print("The system will use following resource: {:}".format(args.argsCommon.device))
     print('Current available device is {}'.format(device))
 
-    dataloaders = getOTSDataloaders(args.argsDataset)
+    possibles = globals().copy()
+
+    dataloaders = possibles.get('get' + args.argsDataset.dataset_name + 'Dataloaders')(args.argsDataset)
 
     model = getEncoderDecoderModel(args.argsModel)
     model.to(device)
 
-    possibles = globals().copy()
     loss_dict = dict()
     loss_dict["types"] = []
     loss_dict["functions"] = []
