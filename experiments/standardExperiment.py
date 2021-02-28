@@ -181,7 +181,7 @@ class StandardExperiment(IExperiment):
         :return:
         """
         assert len(image.shape) == 3, 'Input image array should be 3D numpy array'
-        padded_img = self.arrange_input_image(image)
+        padded_img, _ = self.arrange_input_image(image)
         padded_img = ((padded_img.astype(np.float32) / 255) - 0.5) * 2
         padded_img = padded_img.transpose(2, 0, 1) # convert to 4D tensor
         padded_img = torch.from_numpy(padded_img).unsqueeze(dim=0).to(self.device)
@@ -220,7 +220,7 @@ class StandardExperiment(IExperiment):
         padding_dimensions.append((0,0))
         image_padded = np.pad(image, padding_dimensions, 'constant')
 
-        return image_padded
+        return image_padded, padding_dimensions
 
     def _log_training_statistics(self, training_statistics):
         log_txt = '[Batch {}/{}]:\t'.format(training_statistics['current_batch_number'],
