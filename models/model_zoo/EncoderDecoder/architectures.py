@@ -1,7 +1,9 @@
 import torch
+import torch.nn as nn
 
 from models.IModel import IModel
 from models.model_zoo.EncoderDecoder.custom_layers import Encoder, Decoder, DecoderResizeConv
+from .custom_layers_resnet import EncoderResNet, DecoderResNet
 
 
 class EncoderDecoder_v01(IModel):
@@ -35,6 +37,49 @@ class EncoderDecoder_v02(IModel):
         out = self.decoder(feats)
         return out
 
+class EncoderDecoderResnet(IModel):
+    """
+    source: https://github.com/usuyama/pytorch-unet
+    """
+    def __init__(self, args):
+        super(EncoderDecoderResnet, self).__init__(args)
+
+        self.encoder = EncoderResNet(args)
+        self.decoder = DecoderResNet(args)
+        self.tanh = nn.Tanh()
+
+    def forward(self, x):
+        assert 'inputs' in x, 'There should be 1 input'
+        assert len(x['inputs'].shape) == 4, 'input should be 4D tensor'
+
+        feats = self.encoder(x['inputs'])
+        out = self.decoder(feats)
+        out = self.tanh(out)
+
+        return out
+
+class EncoderDecoderResnetv02(IModel):
+    """
+    source: https://github.com/usuyama/pytorch-unet
+    """
+    def __init__(self, args):
+        super(EncoderDecoderResnetv02, self).__init__(args)
+
+        self.encoder = EncoderResNet(args)
+        self.decoder = DecoderResNet(args)
+        self.tanh = nn.Tanh()
+
+    def forward(self, x):
+        assert 'inputs' in x, 'There should be 1 input'
+        assert len(x['inputs'].shape) == 4, 'input should be 4D tensor'
+
+        feats = self.encoder(x['inputs'])
+        out = self.decoder(feats)
+        out = self.tanh(out)
+
+        out = ((x['inputs'] - (out + 1) * 0.5) - 0.5) * 2
+
+        return out
 
 # if __name__ == '__main__':
 #    from dataloaders.dataloaderGetter import getOTSDataloaders
