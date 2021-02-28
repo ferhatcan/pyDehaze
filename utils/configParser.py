@@ -40,6 +40,8 @@ class ParseDataset(ParseCommons):
     def __init__(self, config: ConfigParser):
         super(ParseDataset, self).__init__(config)
 
+        self.dataset_name = config["DATASET"]["dataset_name"] if "dataset_name" in config["DATASET"] else "OTS"
+
         self.train_set_paths = config["DATASET"]["train_set_paths"].split(',\n')
         self.test_set_paths = config["DATASET"]["test_set_paths"].split(',\n')
         self.max_dataset_size = int(config["DATASET"]["max_dataset_size"]) if "max_dataset_size" in config["DATASET"] else 1e12
