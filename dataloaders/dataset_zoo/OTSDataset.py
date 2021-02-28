@@ -84,20 +84,20 @@ class OTSDataset(IDataset):
 #
 # print(len(ots))
 #
-# data = ots.__getitem__(313000)
+# data = ots.__getitem__(47)
 #
-# input_im = ((data['inputs'] + 1) * 0.5).numpy().transpose((1, 2, 0))
-# gts_im = ((data['gts'] + 1) * 0.5).numpy().transpose((1, 2, 0))
-# reference_im = ((data['original'] + 1) * 0.5).numpy().transpose((1, 2, 0))
+# input_im = ((data['inputs'] + 1) * 0.5 * 255).numpy().transpose((1, 2, 0)).astype(np.uint8)
+# gts_im = ((data['gts'] + 1) * 0.5 * 255).numpy().transpose((1, 2, 0)).astype(np.uint8)
+# reference_im = ((data['original'] + 1) * 0.5 * 255).numpy().transpose((1, 2, 0)).astype(np.uint8)
 #
 # plt.figure()
-# plt.imshow(input_im)
+# plt.imshow(Image.fromarray(input_im, 'HSV').convert('RGB'))
 # plt.waitforbuttonpress()
 # plt.figure()
-# plt.imshow(gts_im)
+# plt.imshow(Image.fromarray(gts_im, 'HSV').convert('RGB'))
 # plt.waitforbuttonpress()
 # plt.figure()
-# plt.imshow(reference_im)
+# plt.imshow(Image.fromarray(reference_im, 'HSV').convert('RGB'))
 # plt.waitforbuttonpress()
 #
 # tmp = 0
