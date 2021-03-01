@@ -18,3 +18,4 @@ dependencies:
         - texttable
         - tensorboard
         - torchsummary
+        - pytorch-msssim
