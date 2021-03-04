@@ -2,7 +2,7 @@ import torch
 
 from dataloaders.dataloaderGetter import *
 from models.modelGetters import getEncoderDecoderModel
-from loss.lossGetters import getMSELoss, getL1Loss
+from loss.lossGetters import *
 from optimizers.optimizerSchedulerGetter import *
 from methods.methodGetter import getStandartMethod
 from benchmarks.benchmarkGetter import getBenchmarks
